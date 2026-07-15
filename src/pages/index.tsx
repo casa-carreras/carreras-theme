@@ -1,6 +1,7 @@
 // Components
 import Hero from '@/components/Index/Hero.component';
 import DisplayProducts from '@/components/Product/DisplayProducts.component';
+import GoogleReviews from '@/components/GoogleReviews/GoogleReviews.component';
 import Layout from '@/components/Layout/Layout.component';
 
 // Utilities
@@ -25,6 +26,7 @@ const Index: NextPage = ({
   <Layout title="Hjem">
     <Hero />
     {products && <DisplayProducts products={products} />}
+    <GoogleReviews />
   </Layout>
 );
 

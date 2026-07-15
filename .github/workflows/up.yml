@@ -77,3 +77,27 @@ jobs:
           ssh-host: ${{ vars.CARRERAS_SSH_HOST }}
           ssh-user: ${{ vars.CARRERAS_SSH_USER }}
           ssh-private-key: ${{ secrets.CARRERAS_SSH_PRIVATE_KEY }}
+
+      # The deploy step above wipes and re-extracts the compose-name folder
+      # from a fresh tarball on every run, so any .env placed there earlier
+      # is gone. Re-write it here (server-only secrets, never baked into
+      # the public Docker Hub image) and recreate the container so it picks
+      # up the values. Safe to run even if these secrets aren't set yet -
+      # the app treats them as optional and just hides the reviews section.
+      - name: Write runtime secrets and restart
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ vars.CARRERAS_SSH_HOST }}
+          username: ${{ vars.CARRERAS_SSH_USER }}
+          key: ${{ secrets.CARRERAS_SSH_PRIVATE_KEY }}
+          envs: GOOGLE_PLACES_API_KEY,GOOGLE_PLACE_ID
+          script: |
+            cd /var/lib/docker-deploy/${{ vars.COMPOSE_NAME }}
+            cat > .env <<EOF
+            GOOGLE_PLACES_API_KEY=${GOOGLE_PLACES_API_KEY}
+            GOOGLE_PLACE_ID=${GOOGLE_PLACE_ID}
+            EOF
+            sudo docker compose -p ${{ vars.COMPOSE_NAME }} up -d
+        env:
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+          GOOGLE_PLACE_ID: ${{ secrets.GOOGLE_PLACE_ID }}

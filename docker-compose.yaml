@@ -4,6 +4,12 @@ services:
     image: harlekoriginal/carreras-theme:latest
     pull_policy: always
     restart: unless-stopped
+    # Server-only secrets (never baked into the public Docker Hub image).
+    # Read from a .env file that up.yml writes on the VPS after each
+    # deploy - see .github/workflows/up.yml "Write runtime secrets" step.
+    environment:
+      GOOGLE_PLACES_API_KEY: ${GOOGLE_PLACES_API_KEY:-}
+      GOOGLE_PLACE_ID: ${GOOGLE_PLACE_ID:-}
     networks:
       - public_network
     labels:

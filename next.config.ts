@@ -49,6 +49,12 @@ const nextConfig: NextConfig = {
         hostname: 'via.placeholder.com',
         pathname: '**',
       },
+      {
+        // Google reviewer profile photos
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        pathname: '**',
+      },
     ],
   },
 };
