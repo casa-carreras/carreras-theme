@@ -17,6 +17,7 @@
 ## Table Of Contents (TOC)
 
 - [Installation](#Installation)
+- [Running the app](#running-the-app)
 - [Features](#Features)
 - [Design System](#design-system)
 - [Lighthouse Performance Monitoring](#lighthouse-performance-monitoring)
@@ -33,7 +34,6 @@
 - [woocommerce](https://wordpress.org/plugins/woocommerce) Ecommerce for WordPress.
 - [wp-graphql](https://wordpress.org/plugins/wp-graphql) Exposes GraphQL for WordPress.
 - [wp-graphql-woocommerce](https://github.com/wp-graphql/wp-graphql-woocommerce) Adds WooCommerce functionality to a WPGraphQL schema.
-- [wp-algolia-woo-indexer](https://github.com/w3bdesign/wp-algolia-woo-indexer) WordPress plugin coded by me. Sends WooCommerce products to Algolia. Required for search to work.
 
 Optional plugin:
 
@@ -73,6 +73,54 @@ The current release has been tested and is confirmed working with the following 
 
 10. Fill in your details and place the order
 
+## Running the app
+
+### En local (desarrollo)
+
+```bash
+pnpm install
+cp .env.example .env   # y rellena NEXT_PUBLIC_GRAPHQL_URL con tu WordPress
+pnpm dev
+```
+
+Abre <http://localhost:3000>. `pnpm dev` sirve con hot-reload; no es lo que
+se usa en el VPS.
+
+### En el VPS (Docker, producción)
+
+El repo trae un [`Dockerfile`](Dockerfile) multi-stage listo para construir
+la imagen de este frontend. Ojo: las variables `NEXT_PUBLIC_*` se incrustan
+**en el momento del build**, así que hay que pasarlas como `--build-arg`, no
+solo como variable de entorno del contenedor.
+
+```bash
+docker build \
+  --build-arg NEXT_PUBLIC_GRAPHQL_URL="https://admin.casa-carreras.es/graphql" \
+  -t carreras-theme:latest .
+
+docker run -d --name carreras-theme -p 3000:3000 carreras-theme:latest
+```
+
+Esto deja el frontend escuchando en el puerto 3000 del VPS. Para que
+funcione de verdad en producción junto al WordPress del repo `tienda`
+todavía faltan dos cosas que dependen de cómo esté montado ese
+`docker-compose.yml`:
+
+1. **Red compartida**: conecta este contenedor a la misma red de Docker que
+   usa el stack de `tienda`, para que pueda resolver internamente el
+   backend de WordPress si hace falta.
+2. **Reverse proxy**: pon esto detrás del mismo nginx/traefik que ya sirve
+   WordPress, para que `casa-carreras.es` (WordPress) y, por ejemplo,
+   `tienda.casa-carreras.es` o `/` (este frontend) convivan en el mismo
+   dominio con HTTPS.
+
+Si me pasas el `docker-compose.yml` de `tienda`, te dejo un servicio ya
+integrado ahí en vez de estos comandos sueltos.
+
+Configuración adicional necesaria en el propio WordPress (ACF para
+horario/contacto/banner, páginas legales editables, enlace de factura de
+FacturaScripts): ver [wordpress/README.md](wordpress/README.md).
+
 ## Features
 
 - Next.js version 16.1.6
@@ -86,7 +134,7 @@ The current release has been tested and is confirmed working with the following 
   - Efficient updates through selective subscriptions
   - Type-safe cart operations
   - Cash On Delivery payment method
-- Algolia search (requires [algolia-woo-indexer](https://github.com/w3bdesign/algolia-woo-indexer))
+- Native product search via WooGraphQL (WordPress/WooCommerce's built-in search, no third-party service required)
 - Meets WCAG accessibility standards where possible
 - Placeholder for products without images
 - State Management:

@@ -1,0 +1,79 @@
+name: up-process
+run-name: "Build, push and deploy ${{ vars.COMPOSE_NAME }}"
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - master
+
+env:
+  WORKFLOW_VERSION: 1.0.0
+  IMAGE: harlekoriginal/carreras-theme
+
+jobs:
+  build-and-push:
+    name: Build and push image
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Requiere los secretos DOCKERHUB_USERNAME y DOCKERHUB_TOKEN en este
+      # repo (Settings > Secrets and variables > Actions). El token se crea
+      # en Docker Hub > Account Settings > Security > New Access Token
+      # (no uses tu contraseña).
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # NEXT_PUBLIC_* values get inlined into the client bundle at build
+      # time, so they must be passed as build args, not just container env.
+      # Configure these under Settings > Secrets and variables > Actions >
+      # Variables for this repo.
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.IMAGE }}:latest
+            ${{ env.IMAGE }}:${{ github.sha }}
+          build-args: |
+            NEXT_PUBLIC_GRAPHQL_URL=${{ vars.NEXT_PUBLIC_GRAPHQL_URL }}
+            NEXT_PUBLIC_PLACEHOLDER_SMALL_IMAGE_URL=${{ vars.NEXT_PUBLIC_PLACEHOLDER_SMALL_IMAGE_URL }}
+            NEXT_PUBLIC_PLACEHOLDER_LARGE_IMAGE_URL=${{ vars.NEXT_PUBLIC_PLACEHOLDER_LARGE_IMAGE_URL }}
+            NEXT_PUBLIC_AUTH_TOKEN_SS_KEY=${{ vars.NEXT_PUBLIC_AUTH_TOKEN_SS_KEY }}
+            NEXT_PUBLIC_REFRESH_TOKEN_LS_KEY=${{ vars.NEXT_PUBLIC_REFRESH_TOKEN_LS_KEY }}
+            NEXT_PUBLIC_SESSION_TOKEN_LS_KEY=${{ vars.NEXT_PUBLIC_SESSION_TOKEN_LS_KEY }}
+            NEXT_PUBLIC_AUTH_KEY_TIMEOUT=${{ vars.NEXT_PUBLIC_AUTH_KEY_TIMEOUT }}
+
+  deploy-up:
+    name: Deploy Up
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Deploy
+        id: deploy
+        uses: casa-carreras/gh-actions/deploy@main
+        with:
+          compose-name: ${{ vars.COMPOSE_NAME }}
+          ssh-host: ${{ vars.CARRERAS_SSH_HOST }}
+          ssh-user: ${{ vars.CARRERAS_SSH_USER }}
+          ssh-private-key: ${{ secrets.CARRERAS_SSH_PRIVATE_KEY }}

@@ -5,6 +5,8 @@ import { ApolloProvider } from '@apollo/client';
 
 import client from '@/utils/apollo/ApolloClient';
 import CartInitializer from '@/components/Cart/CartInitializer.component';
+import CookieBanner from '@/components/CookieConsent/CookieBanner.component';
+import CookiePreferencesModal from '@/components/CookieConsent/CookiePreferencesModal.component';
 
 // Types
 import type { AppProps } from 'next/app';
@@ -23,6 +25,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ApolloProvider client={client}>
       <CartInitializer />
       <Component {...pageProps} />
+      <CookieBanner />
+      <CookiePreferencesModal />
     </ApolloProvider>
   );
 }

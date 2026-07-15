@@ -1,0 +1,23 @@
+name: restart
+run-name: "Restart ${{ vars.COMPOSE_NAME }}"
+
+on:
+  workflow_dispatch:
+
+env:
+  WORKFLOW_VERSION: 1.0.0
+
+jobs:
+  remote-command:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Restart ${{ vars.COMPOSE_NAME }}
+        id: Restart
+        uses: casa-carreras/gh-actions/restart@main
+        with:
+          compose-name: ${{ vars.COMPOSE_NAME }}
+          ssh-host: ${{ vars.CARRERAS_SSH_HOST }}
+          ssh-user: ${{ vars.CARRERAS_SSH_USER }}
+          ssh-private-key: ${{ secrets.CARRERAS_SSH_PRIVATE_KEY }}

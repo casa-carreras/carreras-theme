@@ -1,0 +1,54 @@
+services:
+  carreras-theme:
+    container_name: carreras-theme
+    image: harlekoriginal/carreras-theme:latest
+    pull_policy: always
+    restart: unless-stopped
+    networks:
+      - public_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.carreras-theme.loadbalancer.server.port=3000"
+
+      # ===== ROUTER HTTPS (Principal) =====
+      # Este servicio pasa a ser la web publica en el dominio raiz. WordPress
+      # se mueve a admin.casa-carreras.es (ver tienda/docker-compose.yaml).
+      - "traefik.http.routers.carreras-theme.rule=Host(`casa-carreras.es`) || Host(`www.casa-carreras.es`) || Host(`casa-carreras.com`) || Host(`www.casa-carreras.com`)"
+      - "traefik.http.routers.carreras-theme.entrypoints=websecure"
+      - "traefik.http.routers.carreras-theme.tls=true"
+      - "traefik.http.routers.carreras-theme.tls.certresolver=letsencrypt"
+
+      # ===== ROUTER HTTP (Redirige a HTTPS) =====
+      - "traefik.http.routers.carreras-theme-http.rule=Host(`casa-carreras.es`) || Host(`www.casa-carreras.es`) || Host(`casa-carreras.com`) || Host(`www.casa-carreras.com`)"
+      - "traefik.http.routers.carreras-theme-http.entrypoints=web"
+      - "traefik.http.routers.carreras-theme-http.middlewares=carreras-theme-redirect-to-https"
+
+      # ===== MIDDLEWARES =====
+      # Redirigir HTTP -> HTTPS
+      - "traefik.http.middlewares.carreras-theme-redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.carreras-theme-redirect-to-https.redirectscheme.permanent=true"
+
+      # Redirigir www -> sin www (mismo criterio que wordpress tenia en tienda)
+      - "traefik.http.middlewares.carreras-theme-remove-www.redirectregex.regex=^https://www\\.(casa-carreras\\.(es|com\\.es))(/.*)?"
+      - "traefik.http.middlewares.carreras-theme-remove-www.redirectregex.replacement=https://casa-carreras.$${2}$${3}"
+      - "traefik.http.middlewares.carreras-theme-remove-www.redirectregex.permanent=true"
+
+      # Redirigir .eu y .com.es -> .es
+      - "traefik.http.middlewares.carreras-theme-redirect-to-es.redirectregex.regex=^https://casa-carreras\\.(com\\.es)(/.*)?"
+      - "traefik.http.middlewares.carreras-theme-redirect-to-es.redirectregex.replacement=https://casa-carreras.es$${2}"
+      - "traefik.http.middlewares.carreras-theme-redirect-to-es.redirectregex.permanent=true"
+
+      # Security headers
+      - "traefik.http.middlewares.carreras-theme-security.headers.customResponseHeaders.X-XSS-Protection=1; mode=block"
+      - "traefik.http.middlewares.carreras-theme-security.headers.customResponseHeaders.Referrer-Policy=strict-origin-when-cross-origin"
+      - "traefik.http.middlewares.carreras-theme-security.headers.customResponseHeaders.Permissions-Policy=geolocation=(), microphone=(), camera=()"
+      - "traefik.http.middlewares.carreras-theme-security.headers.customResponseHeaders.X-Content-Type-Options=nosniff"
+      - "traefik.http.middlewares.carreras-theme-security.headers.customResponseHeaders.X-Frame-Options=SAMEORIGIN"
+
+      # ===== APLICAR MIDDLEWARES EN ORDEN =====
+      - "traefik.http.routers.carreras-theme.middlewares=carreras-theme-remove-www@docker,carreras-theme-redirect-to-es@docker,carreras-theme-security@docker"
+
+networks:
+  public_network:
+    driver: bridge
+    external: true

@@ -1,0 +1,13 @@
+node_modules
+.next
+.git
+.github
+.env
+.env.*.local
+npm-debug.log*
+pnpm-debug.log*
+screenshots
+plans
+TODO
+DOCS
+*.md

@@ -1,0 +1,19 @@
+name: Validate Docker Compose
+run-name: Validate Docker Compose ${{ vars.COMPOSE_NAME }}
+
+on:
+  pull_request:
+    paths:
+      - docker-compose.yaml
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: PR_verify
+        id: pr_verify
+        uses: casa-carreras/gh-actions/pr_verify@main
+        with:
+          compose-name: ${{ vars.COMPOSE_NAME }}

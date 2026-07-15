@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Cart from './Cart.component';
-import AlgoliaSearchBox from '../AlgoliaSearch/AlgoliaSearchBox.component';
-import MobileSearch from '../AlgoliaSearch/MobileSearch.component';
+import SearchBox from '../ProductSearch/SearchBox.component';
+import MobileSearch from '../ProductSearch/MobileSearch.component';
 
 /**
  * Navigation for the application.
@@ -49,7 +49,7 @@ const Navbar = () => {
               </span>
             </Link>
             <div className="flex items-center gap-3">
-              <AlgoliaSearchBox />
+              <SearchBox />
               <Cart />
             </div>
           </div>

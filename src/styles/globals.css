@@ -76,27 +76,6 @@ body {
   margin-top: -20px;
 }
 
-/* Fix Algolia search input background to match design system */
-
-.ais-SearchBox-input {
-  background-color: var(--color-surface);
-}
-
-/* Fix Algolia mobile searchbox design issues */
-
-#mobilesearchdiv {
-  position: absolute;
-  height: 200px;
-}
-
-.ais-SearchBox-submit {
-  width: 48px;
-}
-
-.ais-SearchBox-submitIcon {
-  display: none;
-}
-
 .ais-SearchBox-reset {
   margin-left: 10px;
 }
