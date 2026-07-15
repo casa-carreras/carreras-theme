@@ -97,18 +97,18 @@ const ProductFilters = ({
           <h3 className="font-semibold mb-4 text-text">PRIS</h3>
           <RangeSlider
             id="price-range"
-            label="Pris"
+            label="Precio"
             min={0}
             max={1000}
             value={priceRange[1]}
             startValue={priceRange[0]}
             onChange={(value) => setPriceRange([priceRange[0], value])}
-            formatValue={(value) => `kr ${value}`}
+            formatValue={(value) => `${value} €`}
           />
         </div>
 
         <div className="mb-8">
-          <h3 className="font-semibold mb-4 text-text">STØRRELSE</h3>
+          <h3 className="font-semibold mb-4 text-text">TALLA</h3>
           <div className="grid grid-cols-3 gap-2">
             {sizes.map((size) => (
               <Button
@@ -124,7 +124,7 @@ const ProductFilters = ({
         </div>
 
         <div className="mb-8">
-          <h3 className="font-semibold mb-4 text-text">FARGE</h3>
+          <h3 className="font-semibold mb-4 text-text">COLOR</h3>
           <div className="grid grid-cols-3 gap-2">
             {colors.map((color) => (
               <button
@@ -139,7 +139,7 @@ const ProductFilters = ({
                     : ''
                 }`}
                 title={color.name}
-                aria-label={`Filtrer etter farge: ${color.name}`}
+                aria-label={`Filtrar por color: ${color.name}`}
               />
             ))}
           </div>
@@ -149,7 +149,7 @@ const ProductFilters = ({
           handleButtonClick={resetFilters}
           variant="reset"
         >
-          Resett filter
+          Restablecer filtros
         </Button>
       </div>
     </div>

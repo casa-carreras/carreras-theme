@@ -20,7 +20,7 @@ const LoadingSpinner = () => (
           fill="currentFill"
         />
       </svg>
-      <span className="sr-only">Laster ...</span>
+      <span className="sr-only">Cargando...</span>
     </output>
   </div>
 );

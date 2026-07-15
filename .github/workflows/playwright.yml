@@ -23,11 +23,11 @@ jobs:
     - name: Build the project
       run: pnpm run build
       env:
-        NEXT_PUBLIC_GRAPHQL_URL: ${{ secrets.NEXT_PUBLIC_GRAPHQL_URL }}
+        NEXT_PUBLIC_GRAPHQL_URL: ${{ vars.NEXT_PUBLIC_GRAPHQL_URL }}
     - name: Start the application
       run: pnpm run start &
       env:
-        NEXT_PUBLIC_GRAPHQL_URL: ${{ secrets.NEXT_PUBLIC_GRAPHQL_URL }}
+        NEXT_PUBLIC_GRAPHQL_URL: ${{ vars.NEXT_PUBLIC_GRAPHQL_URL }}
     - name: Wait for the application to be ready
       run: |
         echo "Waiting for the application to be ready..."
@@ -37,7 +37,7 @@ jobs:
       run: pnpm exec playwright test
       env:
         CI: true
-        NEXT_PUBLIC_GRAPHQL_URL: ${{ secrets.NEXT_PUBLIC_GRAPHQL_URL }}
+        NEXT_PUBLIC_GRAPHQL_URL: ${{ vars.NEXT_PUBLIC_GRAPHQL_URL }}
         DEBUG: pw:api
     - name: Upload test results
       if: always()

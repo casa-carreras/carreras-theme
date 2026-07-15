@@ -21,7 +21,7 @@ const Produkt = ({
       {products ? (
         <DisplayProducts products={products} />
       ) : (
-        <div className="mt-8 text-2xl text-center">Laster produkt ...</div>
+        <div className="mt-8 text-2xl text-center">Cargando productos...</div>
       )}
     </Layout>
   );

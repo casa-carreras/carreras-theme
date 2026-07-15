@@ -18,7 +18,7 @@ const formatPrice = (value: string | undefined): string | undefined => {
   if (!value) {
     return value;
   }
-  return paddedPrice(value, 'kr');
+  return paddedPrice(value, '€');
 };
 
 /** Strip HTML tags from a string using DOMParser (client-side only) */
@@ -109,7 +109,7 @@ const StockStatus = ({ quantity }: { quantity: number }) => (
   <div className="mb-6 mx-auto md:mx-0">
     <div className="p-2 bg-green-50 border border-success rounded-lg max-w-56">
       <p className="text-lg text-success font-semibold text-center md:text-left">
-        {quantity} på lager
+        {quantity} en stock
       </p>
     </div>
   </div>
@@ -127,7 +127,7 @@ const VariationSelector = ({
       htmlFor="variant"
       className="block text-lg font-medium mb-2 text-center md:text-left"
     >
-      Varianter
+      Variantes
     </label>
     <select
       id="variant"
@@ -137,7 +137,7 @@ const VariationSelector = ({
     >
       {variations.nodes.map(({ id, name, databaseId, stockQuantity }) => (
         <option key={id} value={databaseId}>
-          {name.split('- ').pop()} - ({stockQuantity} på lager)
+          {name.split('- ').pop()} - ({stockQuantity} en stock)
         </option>
       ))}
     </select>

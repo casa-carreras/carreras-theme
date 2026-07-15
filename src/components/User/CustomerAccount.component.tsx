@@ -43,17 +43,26 @@ const CustomerAccount = () => {
     ),
   );
 
+  const logoutUrl = process.env.NEXT_PUBLIC_GRAPHQL_URL
+    ? `${new URL(process.env.NEXT_PUBLIC_GRAPHQL_URL).origin}/wp-login.php?action=logout`
+    : '#';
+
   return (
     <div>
-      <h1 className="text-2xl font-semibold mb-4 text-text">Mine ordre</h1>
+      <div className="mb-4 flex items-center justify-between">
+        <h1 className="text-2xl font-semibold text-text">Mis pedidos</h1>
+        <a href={logoutUrl} className="text-sm text-primary hover:underline">
+          Cerrar sesión
+        </a>
+      </div>
       {orders && orders.length > 0 ? (
         <div className="overflow-x-auto">
           <table className="min-w-full bg-surface">
             <thead>
               <tr>
-                <th className="py-2 px-4 border-b">Ordrenummer</th>
-                <th className="py-2 px-4 border-b">Dato</th>
-                <th className="py-2 px-4 border-b">Status</th>
+                <th className="py-2 px-4 border-b">Nº de pedido</th>
+                <th className="py-2 px-4 border-b">Fecha</th>
+                <th className="py-2 px-4 border-b">Estado</th>
                 <th className="py-2 px-4 border-b">Total</th>
                 <th className="py-2 px-4 border-b">Factura</th>
               </tr>
@@ -68,7 +77,7 @@ const CustomerAccount = () => {
                       className="py-2 px-4 border-b"
                       suppressHydrationWarning
                     >
-                      {new Date(order.date).toLocaleDateString()}
+                      {new Date(order.date).toLocaleDateString('es-ES')}
                     </td>
                     <td className="py-2 px-4 border-b">{order.status}</td>
                     <td className="py-2 px-4 border-b">{order.total}</td>
@@ -93,7 +102,7 @@ const CustomerAccount = () => {
           </table>
         </div>
       ) : (
-        <p>Du har ingen ordre.</p>
+        <p>Todavía no tienes pedidos.</p>
       )}
     </div>
   );

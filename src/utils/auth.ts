@@ -9,7 +9,7 @@ type LoginError = {
 
 function getErrorMessage(error: unknown): string {
   if (typeof error !== 'object' || error === null) {
-    return 'En ukjent feil oppstod. Vennligst prøv igjen senere.';
+    return 'Ha ocurrido un error desconocido. Inténtalo de nuevo más tarde.';
   }
 
   const loginError = error as LoginError;
@@ -22,33 +22,33 @@ function getErrorMessage(error: unknown): string {
     // Map GraphQL error messages to user-friendly messages
     switch (message) {
       case 'invalid_username':
-        return 'Ugyldig brukernavn eller e-postadresse. Vennligst sjekk og prøv igjen.';
+        return 'Usuario o email no válido. Compruébalo e inténtalo de nuevo.';
       case 'incorrect_password':
-        return 'Feil passord. Vennligst sjekk passordet ditt og prøv igjen.';
+        return 'Contraseña incorrecta. Compruébala e inténtalo de nuevo.';
       case 'invalid_email':
-        return 'Ugyldig e-postadresse. Vennligst skriv inn en gyldig e-postadresse.';
+        return 'Email no válido. Escribe una dirección de email correcta.';
       case 'empty_username':
-        return 'Vennligst skriv inn brukernavn eller e-postadresse.';
+        return 'Escribe tu usuario o email.';
       case 'empty_password':
-        return 'Vennligst skriv inn passord.';
+        return 'Escribe tu contraseña.';
       case 'too_many_retries':
-        return 'For mange mislykkede forsøk. Vennligst vent litt før du prøver igjen.';
+        return 'Demasiados intentos fallidos. Espera un poco antes de volver a intentarlo.';
       default:
-        return 'Innlogging mislyktes. Vennligst sjekk dine opplysninger og prøv igjen.';
+        return 'No se pudo iniciar sesión. Comprueba tus datos e inténtalo de nuevo.';
     }
   }
 
   // Check for network errors
   if (loginError.networkError) {
-    return 'Nettverksfeil. Vennligst sjekk internetttilkoblingen din og prøv igjen.';
+    return 'Error de red. Comprueba tu conexión a internet e inténtalo de nuevo.';
   }
 
   // Fallback for other errors
   if (loginError.message) {
-    return 'Det oppstod en feil under innlogging. Vennligst prøv igjen.';
+    return 'Ha ocurrido un error al iniciar sesión. Inténtalo de nuevo.';
   }
 
-  return 'En ukjent feil oppstod. Vennligst prøv igjen senere.';
+  return 'Ha ocurrido un error desconocido. Inténtalo de nuevo más tarde.';
 }
 
 export async function login(username: string, password: string) {
@@ -68,7 +68,7 @@ export async function login(username: string, password: string) {
 
     if (loginResult.status !== 'SUCCESS') {
       throw new Error(
-        'Innlogging mislyktes. Vennligst sjekk dine opplysninger og prøv igjen.',
+        'No se pudo iniciar sesión. Comprueba tus datos e inténtalo de nuevo.',
       );
     }
 

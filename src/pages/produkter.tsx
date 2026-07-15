@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import Layout from '@/components/Layout/Layout.component';
 import ProductList from '@/components/Product/ProductList.component';
 import client from '@/utils/apollo/ApolloClient';
@@ -11,7 +10,7 @@ const Produkter: NextPage = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   if (loading)
     return (
-      <Layout title="Produkter">
+      <Layout title="Productos">
         <div className="flex justify-center items-center min-h-screen">
           <div className="animate-spin rounded-full size-32 border-t-2 border-b-2 border-primary"></div>
         </div>
@@ -20,21 +19,17 @@ const Produkter: NextPage = ({
 
   if (!products)
     return (
-      <Layout title="Produkter">
+      <Layout title="Productos">
         <div className="flex justify-center items-center min-h-screen">
-          <p className="text-error">Ingen produkter funnet</p>
+          <p className="text-error">No se han encontrado productos</p>
         </div>
       </Layout>
     );
 
   return (
-    <Layout title="Produkter">
-      <Head>
-        <title>Produkter | WooCommerce Next.js</title>
-      </Head>
-
+    <Layout title="Productos">
       <div className="container mx-auto px-4 py-8">
-        <ProductList products={products} title="Herreklær" />
+        <ProductList products={products} title="Productos" />
       </div>
     </Layout>
   );

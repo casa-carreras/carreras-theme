@@ -9,6 +9,24 @@ export const LOGIN_USER = gql`
   }
 `;
 
+export const REGISTER_USER = gql`
+  mutation RegisterUser(
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
+    registerUser(
+      input: { username: $username, email: $email, password: $password }
+    ) {
+      user {
+        id
+        username
+        email
+      }
+    }
+  }
+`;
+
 export const ADD_TO_CART = gql`
   mutation ($input: AddToCartInput!) {
     addToCart(input: $input) {

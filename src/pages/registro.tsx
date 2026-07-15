@@ -1,16 +1,16 @@
 import Layout from '@/components/Layout/Layout.component';
-import UserLogin from '@/components/User/UserLogin.component';
+import UserRegister from '@/components/User/UserRegister.component';
 
 import type { NextPage } from 'next';
 
-const LoginPage: NextPage = () => {
+const RegisterPage: NextPage = () => {
   return (
-    <Layout title="Iniciar sesión">
+    <Layout title="Crear cuenta">
       <div className="container mx-auto px-4 py-8">
-        <UserLogin />
+        <UserRegister />
       </div>
     </Layout>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

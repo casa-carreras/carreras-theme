@@ -69,7 +69,7 @@ export const InputField = ({
           className="mt-1 text-sm text-error"
           role="alert"
         >
-          {inputLabel} er påkrevd
+          {inputLabel} es obligatorio
         </p>
       )}
     </div>

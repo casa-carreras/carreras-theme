@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Link from 'next/link';
 import { useForm, FormProvider } from 'react-hook-form';
 import { login } from '../../utils/auth';
 import { InputField } from '../Input/InputField.component';
@@ -51,13 +52,13 @@ const UserLogin = () => {
           <div className="mx-auto lg:w-1/2 flex flex-wrap">
             <InputField
               inputName="username"
-              inputLabel="Brukernavn eller e-post"
+              inputLabel="Usuario o email"
               type="text"
               customValidation={{ required: true }}
             />
             <InputField
               inputName="password"
-              inputLabel="Passord"
+              inputLabel="Contraseña"
               type="password"
               customValidation={{ required: true }}
             />
@@ -71,9 +72,16 @@ const UserLogin = () => {
             <div className="w-full p-2">
               <div className="mt-4 flex justify-center">
                 <Button variant="primary" buttonDisabled={loading}>
-                  {loading ? <LoadingSpinner /> : 'Logg inn'}
+                  {loading ? <LoadingSpinner /> : 'Iniciar sesión'}
                 </Button>
               </div>
+            </div>
+
+            <div className="w-full p-2 text-center text-sm">
+              ¿No tienes cuenta?{' '}
+              <Link href="/registro" className="text-primary hover:underline">
+                Regístrate
+              </Link>
             </div>
           </div>
         </form>

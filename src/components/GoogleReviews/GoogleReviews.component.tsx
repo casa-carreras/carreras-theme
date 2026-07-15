@@ -1,21 +1,9 @@
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-interface IReview {
-  authorName: string;
-  authorPhoto: string | null;
-  rating: number | null;
-  text: string;
-  relativeTime: string;
-}
+import type { GoogleReviewsData } from '@/utils/functions/googleReviews';
 
-interface IGoogleReviewsResponse {
-  configured: boolean;
-  error?: boolean;
-  rating?: number | null;
-  userRatingCount?: number | null;
-  googleMapsUri?: string | null;
-  reviews?: IReview[];
+interface IGoogleReviewsProps {
+  data: GoogleReviewsData;
 }
 
 const Stars = ({ rating }: { rating: number | null }) => (
@@ -28,22 +16,13 @@ const Stars = ({ rating }: { rating: number | null }) => (
 );
 
 /**
- * Shows Google reviews for the business, pulled server-side via
- * /api/google-reviews (keeps the Places API key off the client). Renders
- * nothing until GOOGLE_PLACES_API_KEY/GOOGLE_PLACE_ID are configured on the
- * server, or if the Places API call fails.
+ * Shows Google reviews for the business. Data is fetched server-side in
+ * getStaticProps (see pages/index.tsx) so the Places API key never reaches
+ * the client and there's no client-side fetch waterfall. Renders nothing
+ * until GOOGLE_PLACES_API_KEY/GOOGLE_PLACE_ID are configured, or on error.
  */
-const GoogleReviews = () => {
-  const [data, setData] = useState<IGoogleReviewsResponse | null>(null);
-
-  useEffect(() => {
-    fetch('/api/google-reviews')
-      .then((res) => res.json())
-      .then(setData)
-      .catch(() => setData(null));
-  }, []);
-
-  if (!data || !data.configured || data.error || !data.reviews?.length) {
+const GoogleReviews = ({ data }: IGoogleReviewsProps) => {
+  if (!data.configured || data.error || !data.reviews?.length) {
     return null;
   }
 

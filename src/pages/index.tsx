@@ -12,6 +12,7 @@ import type { NextPage, GetStaticProps, InferGetStaticPropsType } from 'next';
 
 // GraphQL
 import { FETCH_ALL_PRODUCTS_QUERY } from '@/utils/gql/GQL_QUERIES';
+import { fetchGoogleReviews } from '@/utils/functions/googleReviews';
 
 /**
  * Main index page
@@ -22,26 +23,31 @@ import { FETCH_ALL_PRODUCTS_QUERY } from '@/utils/gql/GQL_QUERIES';
 
 const Index: NextPage = ({
   products,
+  googleReviews,
 }: InferGetStaticPropsType<typeof getStaticProps>) => (
   <Layout title="Hjem">
     <Hero />
     {products && <DisplayProducts products={products} />}
-    <GoogleReviews />
+    <GoogleReviews data={googleReviews} />
   </Layout>
 );
 
 export default Index;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data, loading, networkStatus } = await client.query({
-    query: FETCH_ALL_PRODUCTS_QUERY,
-  });
+  const [{ data, loading, networkStatus }, googleReviews] = await Promise.all(
+    [
+      client.query({ query: FETCH_ALL_PRODUCTS_QUERY }),
+      fetchGoogleReviews(),
+    ],
+  );
 
   return {
     props: {
       products: data.products.nodes,
       loading,
       networkStatus,
+      googleReviews,
     },
     revalidate: 60,
   };

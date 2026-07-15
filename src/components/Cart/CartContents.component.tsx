@@ -113,7 +113,7 @@ const CartContents = () => {
                     {item.product.node.name}
                   </h2>
                   <p className="text-text-muted">
-                    kr {getUnitPrice(item.subtotal, item.quantity)}
+                    {getUnitPrice(item.subtotal, item.quantity)}
                   </p>
                 </div>
                 <div className="flex items-center">
@@ -131,7 +131,7 @@ const CartContents = () => {
                       );
                     }}
                     className="w-16 px-2 py-1 text-center border border-border rounded-md mr-2 bg-surface focus:ring-2 focus:ring-primary focus:border-primary"
-                    aria-label={`Antall ${item.product.node.name}`}
+                    aria-label={`Cantidad de ${item.product.node.name}`}
                   />
                   <Button
                     handleButtonClick={() =>
@@ -143,7 +143,7 @@ const CartContents = () => {
                     variant="secondary"
                     buttonDisabled={updateCartProcessing}
                   >
-                    Fjern
+                    Eliminar
                   </Button>
                 </div>
                 <div className="ml-4">
@@ -160,7 +160,7 @@ const CartContents = () => {
             {!isCheckoutPage && (
               <div className="flex justify-center mb-4">
                 <Link href="/kasse" passHref>
-                  <Button variant="primary" fullWidth>GÅ TIL KASSE</Button>
+                  <Button variant="primary" fullWidth>FINALIZAR COMPRA</Button>
                 </Link>
               </div>
             )}
@@ -169,17 +169,17 @@ const CartContents = () => {
       ) : (
         <div className="text-center">
           <h2 className="text-2xl font-semibold mb-4 text-text">
-            Ingen produkter i handlekurven
+            No hay productos en el carrito
           </h2>
           <Link href="/produkter" passHref>
-            <Button variant="primary">Fortsett å handle</Button>
+            <Button variant="primary">Seguir comprando</Button>
           </Link>
         </div>
       )}
       {updateCartProcessing && (
         <div className="fixed inset-0 flex items-center justify-center bg-overlay bg-opacity-50">
           <div className="bg-surface p-4 rounded-lg">
-            <p className="text-lg mb-2 text-text">Oppdaterer handlekurv…</p>
+            <p className="text-lg mb-2 text-text">Actualizando carrito…</p>
             <LoadingSpinner />
           </div>
         </div>

@@ -84,7 +84,7 @@ const CheckoutForm = () => {
           {/*Error display*/}
           {requestError && (
             <div className="h-32 text-xl text-center text-error" role="alert">
-              En feil har oppstått.
+              Ha ocurrido un error.
             </div>
           )}
           {/* Checkout Loading*/}

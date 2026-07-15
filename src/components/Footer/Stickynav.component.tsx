@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Cart from '@/components/Header/Cart.component';
 import Search from '@/components/ProductSearch/SearchBox.component';
 import SVGMobileSearchIcon from '@/components/SVG/SVGMobileSearchIcon.component';
+import { useTranslation } from '@/hooks/useTranslation';
 
 import Hamburger from './Hamburger.component';
 
@@ -10,51 +11,59 @@ import Hamburger from './Hamburger.component';
  * Navigation for the application.
  * Includes mobile menu.
  */
-const Stickynav = () => (
-  <nav id="footer" className="fixed bottom-0 z-50 w-full mt-40 md:hidden">
-    <div className="container flex flex-wrap items-center justify-between px-6 py-3 mx-auto mt-0 md:min-w-96 bg-primary-dark">
-      <Hamburger />
-      <div
-        className="order-3 hidden w-full md:flex md:items-center md:w-auto md:order-1"
-        id="menu"
-      >
-        <ul className="items-center justify-between pt-4 text-base text-text-muted md:flex md:pt-0">
-          <li>
-            <Link href="/produkter">
-              <span className="inline-block py-2 pr-4 text-xl font-bold no-underline hover:underline">
-                Produkter
-              </span>
-            </Link>
-          </li>
-          <li>
-            <Link href="/kategorier">
-              <span className="inline-block py-2 pr-4 text-xl font-bold no-underline hover:underline">
-                Kategorier
-              </span>
-            </Link>
-          </li>
-        </ul>
-      </div>
-      <div className="flex items-center order-2 md:order-3" id="nav-content">
-        <Search />
-        <SVGMobileSearchIcon />
-        <Link href="/min-konto" aria-label="Mi cuenta" className="mr-2">
-          <svg
-            className="block fill-white"
-            xmlns="https://www.w3.org/2000/svg"
-            width="28"
-            height="28"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            focusable="false"
+const Stickynav = () => {
+  const { t } = useTranslation();
+
+  return (
+    <nav id="footer" className="fixed bottom-0 z-50 w-full mt-40 md:hidden">
+      <div className="container flex flex-wrap items-center justify-between px-6 py-3 mx-auto mt-0 md:min-w-96 bg-primary-dark">
+        <Hamburger />
+        <div
+          className="order-3 hidden w-full md:flex md:items-center md:w-auto md:order-1"
+          id="menu"
+        >
+          <ul className="items-center justify-between pt-4 text-base text-text-muted md:flex md:pt-0">
+            <li>
+              <Link href="/produkter">
+                <span className="inline-block py-2 pr-4 text-xl font-bold no-underline hover:underline">
+                  {t('nav.products')}
+                </span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/kategorier">
+                <span className="inline-block py-2 pr-4 text-xl font-bold no-underline hover:underline">
+                  {t('nav.categories')}
+                </span>
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div className="flex items-center order-2 md:order-3" id="nav-content">
+          <Search />
+          <SVGMobileSearchIcon />
+          <Link
+            href="/min-konto"
+            aria-label={t('nav.account')}
+            className="mr-2"
           >
-            <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5zm0 2c-3.866 0-7 2.239-7 5v1c0 .552.448 1 1 1h12c.552 0 1-.448 1-1v-1c0-2.761-3.134-5-7-5z" />
-          </svg>
-        </Link>
-        <Cart stickyNav />
+            <svg
+              className="block fill-white"
+              xmlns="https://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5zm0 2c-3.866 0-7 2.239-7 5v1c0 .552.448 1 1 1h12c.552 0 1-.448 1-1v-1c0-2.761-3.134-5-7-5z" />
+            </svg>
+          </Link>
+          <Cart stickyNav />
+        </div>
       </div>
-    </div>
-  </nav>
-);
+    </nav>
+  );
+};
 
 export default Stickynav;
