@@ -42,8 +42,16 @@ const FALLBACK_CONTENT = `
 
 const AvisoLegalPage: NextPage = ({
   content,
+  seoTitle,
+  seoDescription,
+  ogImage,
 }: InferGetStaticPropsType<typeof getStaticProps>) => (
-  <Layout title="Aviso Legal">
+  <Layout
+    title="Aviso Legal"
+    seoTitle={seoTitle ?? undefined}
+    seoDescription={seoDescription ?? undefined}
+    ogImage={ogImage ?? undefined}
+  >
     <div
       className="container mx-auto max-w-3xl space-y-4 px-4 py-8 text-text [&_h2]:mt-6 [&_h2]:text-xl [&_h2]:font-bold [&_p]:text-text-muted"
       dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
@@ -63,6 +71,9 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       content: data?.page?.content || FALLBACK_CONTENT,
+      seoTitle: data?.page?.seo?.title || null,
+      seoDescription: data?.page?.seo?.metaDesc || null,
+      ogImage: data?.page?.seo?.opengraphImage?.sourceUrl || null,
     },
     revalidate: 60,
   };

@@ -47,6 +47,13 @@ export const GET_SINGLE_PRODUCT = gql`
         sourceUrl
       }
       name
+      seo {
+        title
+        metaDesc
+        opengraphImage {
+          sourceUrl
+        }
+      }
       ... on SimpleProduct {
         salePrice
         regularPrice
@@ -351,6 +358,46 @@ export const GET_CUSTOMER_ORDER_INVOICES_QUERY = gql`
   }
 `;
 
+export const FETCH_ALL_POSTS_QUERY = gql`
+  query GetAllPosts {
+    posts(first: 20) {
+      nodes {
+        title
+        slug
+        excerpt
+        date
+        featuredImage {
+          node {
+            sourceUrl
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_SINGLE_POST_QUERY = gql`
+  query GetSinglePost($uri: ID!) {
+    post(id: $uri, idType: URI) {
+      title
+      content
+      date
+      featuredImage {
+        node {
+          sourceUrl
+        }
+      }
+      seo {
+        title
+        metaDesc
+        opengraphImage {
+          sourceUrl
+        }
+      }
+    }
+  }
+`;
+
 // Fetches a WordPress Page's editable content by its slug (core WPGraphQL,
 // no extra plugin needed). Used so legal/contact pages can be edited from
 // wp-admin instead of being hardcoded in the frontend.
@@ -359,6 +406,13 @@ export const FETCH_PAGE_BY_SLUG_QUERY = gql`
     page(id: $uri, idType: URI) {
       title
       content
+      seo {
+        title
+        metaDesc
+        opengraphImage {
+          sourceUrl
+        }
+      }
     }
   }
 `;

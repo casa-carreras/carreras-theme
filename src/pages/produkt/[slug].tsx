@@ -30,7 +30,12 @@ const Produkt: NextPage = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const hasError = networkStatus === '8';
   return (
-    <Layout title={`${product.name ? product.name : ''}`}>
+    <Layout
+      title={`${product.name ? product.name : ''}`}
+      seoTitle={product.seo?.title}
+      seoDescription={product.seo?.metaDesc}
+      ogImage={product.seo?.opengraphImage?.sourceUrl}
+    >
       {product ? (
         <SingleProduct product={product} />
       ) : (

@@ -38,6 +38,19 @@ const Stickynav = () => (
       <div className="flex items-center order-2 md:order-3" id="nav-content">
         <Search />
         <SVGMobileSearchIcon />
+        <Link href="/min-konto" aria-label="Mi cuenta" className="mr-2">
+          <svg
+            className="block fill-white"
+            xmlns="https://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5zm0 2c-3.866 0-7 2.239-7 5v1c0 .552.448 1 1 1h12c.552 0 1-.448 1-1v-1c0-2.761-3.134-5-7-5z" />
+          </svg>
+        </Link>
         <Cart stickyNav />
       </div>
     </div>
