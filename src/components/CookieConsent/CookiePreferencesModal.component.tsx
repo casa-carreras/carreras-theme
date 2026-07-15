@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
 import Button from '@/components/UI/Button.component';
@@ -27,6 +27,7 @@ const ToggleRow = ({
     <label className="relative inline-flex shrink-0 cursor-pointer items-center">
       <input
         type="checkbox"
+        aria-label={title}
         className="peer sr-only"
         checked={checked}
         disabled={disabled}
@@ -47,21 +48,39 @@ const CookiePreferencesModal = () => {
     useCookieConsentStore();
   const [analytics, setAnalytics] = useState(categories.analytics);
   const [marketing, setMarketing] = useState(categories.marketing);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
-  if (!isPreferencesOpen) return null;
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    if (isPreferencesOpen) {
+      dialog.showModal();
+    } else {
+      dialog.close();
+    }
+  }, [isPreferencesOpen]);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    const handleClose = () => closePreferences();
+    dialog.addEventListener('close', handleClose);
+    return () => dialog.removeEventListener('close', handleClose);
+  }, [closePreferences]);
 
   const handleSave = () => {
     savePreferences({ analytics, marketing });
   };
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
+    <dialog
+      ref={dialogRef}
       aria-label="Personalizar cookies"
-      className="fixed inset-0 z-[70] flex items-center justify-center bg-overlay/50 px-4"
+      className="fixed inset-0 z-[70] m-auto max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-lg border-0 bg-surface p-6 text-inherit shadow-lg backdrop:bg-overlay/50"
     >
-      <div className="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-lg bg-surface p-6 shadow-lg">
+      <div>
         <h2 className="text-2xl font-light text-text">Personalizar Cookies</h2>
         <p className="mt-2 text-sm text-text-muted">
           Elige qué tipo de cookies quieres permitir. Puedes cambiar esta
@@ -103,7 +122,7 @@ const CookiePreferencesModal = () => {
           </Button>
         </div>
       </div>
-    </div>
+    </dialog>
   );
 };
 

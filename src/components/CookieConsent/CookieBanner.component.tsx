@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 import Button from '@/components/UI/Button.component';
@@ -5,20 +6,27 @@ import { useCookieConsentStore } from '@/stores/cookieConsentStore';
 
 /**
  * GDPR-style cookie banner. Hidden once the visitor has made a decision
- * (accept all / reject all / saved custom preferences).
+ * (accept all / reject all / saved custom preferences). Non-modal, so it
+ * uses <dialog>.show() rather than .showModal().
  */
 const CookieBanner = () => {
   const { hasDecided, acceptAll, rejectAll, openPreferences } =
     useCookieConsentStore();
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
-  if (hasDecided) return null;
+  useEffect(() => {
+    if (hasDecided) {
+      dialogRef.current?.close();
+    } else {
+      dialogRef.current?.show();
+    }
+  }, [hasDecided]);
 
   return (
-    <div
-      role="dialog"
-      aria-modal="false"
+    <dialog
+      ref={dialogRef}
       aria-label="Aviso de cookies"
-      className="fixed inset-x-0 bottom-0 z-[60] border-t border-border bg-surface shadow-lg"
+      className="fixed inset-x-0 bottom-0 top-auto z-[60] m-0 w-full max-w-none border-0 border-t border-t-border bg-surface p-0 text-inherit shadow-lg"
     >
       <div className="container mx-auto flex flex-col gap-4 px-6 py-4 md:flex-row md:items-center md:justify-between">
         <p className="text-sm text-text-muted">
@@ -43,7 +51,7 @@ const CookieBanner = () => {
           </Button>
         </div>
       </div>
-    </div>
+    </dialog>
   );
 };
 

@@ -1,3 +1,5 @@
+import DOMPurify from 'isomorphic-dompurify';
+
 import Layout from '@/components/Layout/Layout.component';
 import client from '@/utils/apollo/ApolloClient';
 import { FETCH_PAGE_BY_SLUG_QUERY } from '@/utils/gql/GQL_QUERIES';
@@ -44,7 +46,7 @@ const AvisoLegalPage: NextPage = ({
   <Layout title="Aviso Legal">
     <div
       className="container mx-auto max-w-3xl space-y-4 px-4 py-8 text-text [&_h2]:mt-6 [&_h2]:text-xl [&_h2]:font-bold [&_p]:text-text-muted"
-      dangerouslySetInnerHTML={{ __html: content }}
+      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
     />
   </Layout>
 );

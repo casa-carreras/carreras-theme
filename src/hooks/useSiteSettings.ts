@@ -20,7 +20,7 @@ export interface SiteSettings {
 // Used until the "Ajustes del sitio" ACF options page exists in WordPress
 // (setup steps in wordpress/README.md), and as a safety net if that query
 // ever fails.
-export const DEFAULT_SITE_SETTINGS: SiteSettings = {
+const DEFAULT_SITE_SETTINGS: SiteSettings = {
   direccion: 'Amor de Dios 27 Sevilla',
   telefono: '954386554',
   email: 'info@casa-carreras.es',

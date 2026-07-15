@@ -11,6 +11,7 @@ const MobileSearch = () => {
     <div className="inline mt-4 md:hidden">
       <input
         type="search"
+        aria-label="Søk her"
         placeholder="Søk etter produkter"
         value={query}
         onChange={(e) => setQuery(e.target.value)}

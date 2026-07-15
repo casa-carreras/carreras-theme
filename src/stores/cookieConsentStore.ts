@@ -60,12 +60,3 @@ export const useCookieConsentStore = create<CookieConsentState>()(
     },
   ),
 );
-
-/**
- * Reads current consent for a category outside of React (e.g. before loading
- * a third-party script). Returns false until the user has made a decision.
- */
-export const hasCookieConsent = (category: keyof CookieCategories) => {
-  const { hasDecided, categories } = useCookieConsentStore.getState();
-  return hasDecided && categories[category];
-};
