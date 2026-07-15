@@ -56,7 +56,7 @@ export default AvisoLegalPage;
 export const getStaticProps: GetStaticProps = async () => {
   const { data } = await client.query({
     query: FETCH_PAGE_BY_SLUG_QUERY,
-    variables: { slug: 'aviso-legal' },
+    variables: { uri: '/aviso-legal/' },
     errorPolicy: 'ignore',
   });
 

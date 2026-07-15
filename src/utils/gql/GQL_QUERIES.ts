@@ -59,16 +59,6 @@ export const GET_SINGLE_PRODUCT = gql`
         regularPrice
         price
         id
-        allPaColors {
-          nodes {
-            name
-          }
-        }
-        allPaSizes {
-          nodes {
-            name
-          }
-        }
         variations {
           nodes {
             id
@@ -138,17 +128,6 @@ export const FETCH_ALL_PRODUCTS_QUERY = gql`
             nodes {
               name
               slug
-            }
-          }
-          allPaColors {
-            nodes {
-              name
-              slug
-            }
-          }
-          allPaSizes {
-            nodes {
-              name
             }
           }
           variations {
@@ -376,8 +355,8 @@ export const GET_CUSTOMER_ORDER_INVOICES_QUERY = gql`
 // no extra plugin needed). Used so legal/contact pages can be edited from
 // wp-admin instead of being hardcoded in the frontend.
 export const FETCH_PAGE_BY_SLUG_QUERY = gql`
-  query GetPageBySlug($slug: ID!) {
-    page(id: $slug, idType: SLUG) {
+  query GetPageBySlug($uri: ID!) {
+    page(id: $uri, idType: URI) {
       title
       content
     }
