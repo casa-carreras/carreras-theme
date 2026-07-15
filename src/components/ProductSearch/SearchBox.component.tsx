@@ -1,4 +1,5 @@
 import { useProductSearch } from '@/hooks/useProductSearch';
+import { useTranslation } from '@/hooks/useTranslation';
 import SearchResults from './SearchResults.component';
 
 /**
@@ -7,14 +8,15 @@ import SearchResults from './SearchResults.component';
  */
 const SearchBox = () => {
   const { query, setQuery, hits } = useProductSearch();
+  const { t } = useTranslation();
 
   return (
     <div className="hidden mb-0.5 md:inline-block xl:inline-block">
       <div className="relative w-72">
         <input
           type="search"
-          aria-label="Søk her"
-          placeholder="Søk etter produkter"
+          aria-label={t('nav.search')}
+          placeholder={t('nav.searchPlaceholder')}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="w-full px-4 py-2 text-base bg-surface border border-border outline-none rounded-md transition-colors duration-200 focus:border-primary"

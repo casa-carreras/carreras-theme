@@ -2,12 +2,17 @@ import Link from 'next/link';
 import Cart from './Cart.component';
 import SearchBox from '../ProductSearch/SearchBox.component';
 import MobileSearch from '../ProductSearch/MobileSearch.component';
+import { useTranslation } from '@/hooks/useTranslation';
+
+const SITE_NAME = 'CASA CARRERAS';
 
 /**
  * Navigation for the application.
  * Includes mobile menu.
  */
 const Navbar = () => {
+  const { t } = useTranslation();
+
   return (
     <header className="border-b border-border">
       <nav id="header" className="top-0 z-50 w-full bg-surface">
@@ -16,7 +21,7 @@ const Navbar = () => {
             <div className="text-center">
               <Link href="/">
                 <span className="text-lg font-bold tracking-widest text-text">
-                  NETTBUTIKK
+                  {SITE_NAME}
                 </span>
               </Link>
             </div>
@@ -30,7 +35,7 @@ const Navbar = () => {
                 <span className="text-base uppercase tracking-wider group relative">
                   <span className="relative inline-block">
                     <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary group-hover:w-full transition-all duration-500"></span>
-                    Produkter
+                    {t('nav.products')}
                   </span>
                 </span>
               </Link>
@@ -38,7 +43,7 @@ const Navbar = () => {
                 <span className="text-base uppercase tracking-wider group relative">
                   <span className="relative inline-block">
                     <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary group-hover:w-full transition-all duration-500"></span>
-                    Kategorier
+                    {t('nav.categories')}
                   </span>
                 </span>
               </Link>
@@ -46,19 +51,19 @@ const Navbar = () => {
                 <span className="text-base uppercase tracking-wider group relative">
                   <span className="relative inline-block">
                     <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary group-hover:w-full transition-all duration-500"></span>
-                    Blog
+                    {t('nav.blog')}
                   </span>
                 </span>
               </Link>
             </div>
             <Link href="/" className="hidden lg:block">
               <span className="text-xl font-bold tracking-widest text-text hover:text-primary transition-colors duration-200">
-                NETTBUTIKK
+                {SITE_NAME}
               </span>
             </Link>
             <div className="flex items-center gap-3">
               <SearchBox />
-              <Link href="/min-konto" aria-label="Mi cuenta">
+              <Link href="/min-konto" aria-label={t('nav.account')}>
                 <svg
                   className="block fill-text"
                   xmlns="https://www.w3.org/2000/svg"

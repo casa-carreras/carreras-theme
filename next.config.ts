@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
   // to run `node server.js` — this is what the Dockerfile copies into the
   // final image instead of the whole node_modules tree.
   output: 'standalone',
+  i18n: {
+    locales: ['es', 'en', 'pt', 'it'],
+    defaultLocale: 'es',
+  },
   images: {
     remotePatterns: [
       {

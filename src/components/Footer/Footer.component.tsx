@@ -2,6 +2,8 @@ import Link from 'next/link';
 
 import { useCookieConsentStore } from '@/stores/cookieConsentStore';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
+import { useTranslation } from '@/hooks/useTranslation';
+import LanguageSwitcher from '@/components/UI/LanguageSwitcher.component';
 
 import {
   ClockIcon,
@@ -24,6 +26,7 @@ const Footer = () => {
     (state) => state.openPreferences,
   );
   const settings = useSiteSettings();
+  const { t } = useTranslation();
 
   const socialLinks = [
     { label: 'Facebook', href: settings.facebookUrl, Icon: FacebookIcon },
@@ -78,21 +81,21 @@ const Footer = () => {
           </div>
 
           <div>
-            <h2 className="font-bold text-text">Nuestra empresa</h2>
+            <h2 className="font-bold text-text">{t('footer.company')}</h2>
             <ul className="mt-4 space-y-2 text-text-muted">
               <li>
                 <Link href="/contacto" className="hover:underline">
-                  Contacto
+                  {t('footer.contact')}
                 </Link>
               </li>
               <li>
                 <Link href="/aviso-legal" className="hover:underline">
-                  Aviso Legal
+                  {t('footer.legalNotice')}
                 </Link>
               </li>
               <li>
                 <Link href="/politica-cookies" className="hover:underline">
-                  Política de Cookies
+                  {t('footer.cookiePolicy')}
                 </Link>
               </li>
               <li>
@@ -101,33 +104,33 @@ const Footer = () => {
                   onClick={openPreferences}
                   className="hover:underline"
                 >
-                  Personalizar Cookies
+                  {t('footer.customizeCookies')}
                 </button>
               </li>
             </ul>
           </div>
 
           <div>
-            <h2 className="font-bold text-text">Su cuenta</h2>
+            <h2 className="font-bold text-text">{t('footer.account')}</h2>
             <ul className="mt-4 space-y-2 text-text-muted">
               <li>
                 <Link href="/min-konto" className="hover:underline">
-                  Mi Cuenta
+                  {t('footer.myAccount')}
                 </Link>
               </li>
               <li>
                 <Link href="/min-konto" className="hover:underline">
-                  Track Order
+                  {t('footer.trackOrder')}
                 </Link>
               </li>
               <li>
                 <Link href="/handlekurv" className="hover:underline">
-                  Carrito
+                  {t('footer.cart')}
                 </Link>
               </li>
               <li>
                 <Link href="/min-konto" className="hover:underline">
-                  Mis Pedidos
+                  {t('footer.myOrders')}
                 </Link>
               </li>
             </ul>
@@ -138,10 +141,11 @@ const Footer = () => {
       <div className="border-t border-border">
         <div className="container mx-auto flex flex-col-reverse items-center gap-4 px-6 py-4 md:flex-row md:justify-between">
           <div className="text-sm text-text-muted" suppressHydrationWarning>
-            &copy; {new Date().getFullYear()} Bellas Artes Casa Carreras. Todos
-            los derechos reservados.
+            &copy; {new Date().getFullYear()} Bellas Artes Casa Carreras.{' '}
+            {t('footer.rightsReserved')}
           </div>
           <div className="flex items-center gap-4">
+            <LanguageSwitcher />
             {socialLinks.map(({ label, href, Icon }) => (
               <a
                 key={label}

@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "products": "Produtos",
+    "categories": "Categorias",
+    "blog": "Blog",
+    "account": "Minha conta",
+    "search": "Pesquisar produtos",
+    "searchPlaceholder": "Pesquisar produtos"
+  },
+  "footer": {
+    "company": "Nossa empresa",
+    "contact": "Contacto",
+    "legalNotice": "Aviso Legal",
+    "cookiePolicy": "Política de Cookies",
+    "customizeCookies": "Personalizar Cookies",
+    "account": "Sua conta",
+    "myAccount": "Minha Conta",
+    "trackOrder": "Rastrear Pedido",
+    "cart": "Carrinho",
+    "myOrders": "Meus Pedidos",
+    "rightsReserved": "Todos os direitos reservados."
+  },
+  "common": {
+    "loading": "Carregando...",
+    "language": "Idioma"
+  }
+}
